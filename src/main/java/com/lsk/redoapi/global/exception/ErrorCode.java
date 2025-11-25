@@ -13,6 +13,8 @@ public enum ErrorCode {
     METHOD_NOT_ALLOWED(405, "허용되지 않은 메서드입니다."),
 
     // Auth
+    UNAUTHORIZED(401, "인증이 필요합니다."),
+    FORBIDDEN(403, "권한이 없습니다."),
     USER_NOT_FOUND(404, "사용자를 찾을 수 없습니다."),
     INVALID_PASSWORD(401, "잘못된 비밀번호입니다."),
     DUPLICATE_USERNAME(409, "이미 존재하는 사용자 이름입니다."),

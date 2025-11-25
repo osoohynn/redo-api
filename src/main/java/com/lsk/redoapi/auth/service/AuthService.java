@@ -33,13 +33,13 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
-        userRepository.save(user);
+        UserEntity savedUser = userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(savedUser.getUsername(), savedUser.getId());
 
         return AuthResponse.builder()
                 .token(token)
-                .username(user.getUsername())
+                .username(savedUser.getUsername())
                 .build();
     }
 
@@ -51,7 +51,7 @@ public class AuthService {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
 
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(user.getUsername(), user.getId());
 
         return AuthResponse.builder()
                 .token(token)
