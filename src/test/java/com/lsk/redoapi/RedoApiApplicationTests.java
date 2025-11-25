@@ -1,4 +1,4 @@
-package com.lsk.redo_api;
+package com.lsk.redoapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
