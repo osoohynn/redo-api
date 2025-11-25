@@ -32,6 +32,11 @@ spring:
       name: admin
       password: admin
 
+# JWT 설정
+jwt:
+  secret: YXNkZmFzZGZhc2RmYXNkZmFzZGZhc2RmYXNkZmFzZGZhc2RmYXNkZmFzZGZhc2RmYXNkZmFzZGZhc2Rm
+  expiration: 86400000 # 24시간 (밀리초)
+
 # 로깅 설정
 logging:
   level:
