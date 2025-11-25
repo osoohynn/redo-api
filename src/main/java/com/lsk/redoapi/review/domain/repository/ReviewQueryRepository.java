@@ -4,7 +4,7 @@ import com.lsk.redoapi.review.domain.entity.ReviewEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface ReviewRepositoryCustom {
+public interface ReviewQueryRepository {
 
     /**
      * 다양한 조건으로 리뷰 목록 조회
