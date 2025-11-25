@@ -1,4 +1,4 @@
-package com.lsk.redo_api.global.common;
+package com.lsk.redoapi.global.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
