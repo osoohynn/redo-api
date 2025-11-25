@@ -5,6 +5,7 @@ import com.lsk.redoapi.review.presentation.dto.request.CreateReviewRequest;
 import com.lsk.redoapi.review.presentation.dto.request.UpdateReviewRequest;
 import com.lsk.redoapi.review.presentation.dto.response.ReviewResponse;
 import com.lsk.redoapi.review.service.ReviewService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ResponseEntity<BaseResponse<ReviewResponse>> createReview(@RequestBody CreateReviewRequest request) {
+    public ResponseEntity<BaseResponse<ReviewResponse>> createReview(@Valid @RequestBody CreateReviewRequest request) {
         ReviewResponse response = reviewService.createReview(request);
         return BaseResponse.created(response);
     }
@@ -39,7 +40,7 @@ public class ReviewController {
     @PutMapping("/{id}")
     public ResponseEntity<BaseResponse<ReviewResponse>> updateReview(
             @PathVariable Long id,
-            @RequestBody UpdateReviewRequest request) {
+            @Valid @RequestBody UpdateReviewRequest request) {
         ReviewResponse response = reviewService.updateReview(id, request);
         return BaseResponse.ok(response);
     }
