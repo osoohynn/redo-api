@@ -57,7 +57,7 @@ public class ReviewService {
         ReviewEntity review = reviewRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
 
-        if (!review.isOwner(userId)) {
+        if (review.isNotOwner(userId)) {
             throw new CustomException(ErrorCode.FORBIDDEN);
         }
 
@@ -73,7 +73,7 @@ public class ReviewService {
         ReviewEntity review = reviewRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
 
-        if (!review.isOwner(userId)) {
+        if (review.isNotOwner(userId)) {
             throw new CustomException(ErrorCode.FORBIDDEN);
         }
 

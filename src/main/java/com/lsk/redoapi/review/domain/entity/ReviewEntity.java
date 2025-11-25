@@ -43,7 +43,7 @@ public class ReviewEntity extends BaseEntity {
         this.rating = rating;
     }
 
-    public boolean isOwner(Long userId) {
-        return this.userId.equals(userId);
+    public boolean isNotOwner(Long userId) {
+        return !this.userId.equals(userId);
     }
 }
