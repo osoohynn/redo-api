@@ -43,3 +43,6 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
     com.lsk.redoapi: debug
+
+server:
+  port: 8090

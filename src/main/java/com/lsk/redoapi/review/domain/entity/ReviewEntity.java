@@ -26,16 +26,24 @@ public class ReviewEntity extends BaseEntity {
     @Column(nullable = false)
     private int rating;
 
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
     @Builder
-    public ReviewEntity(String bookTitle, String content, int rating) {
+    public ReviewEntity(String bookTitle, String content, int rating, Long userId) {
         this.bookTitle = bookTitle;
         this.content = content;
         this.rating = rating;
+        this.userId = userId;
     }
 
     public void update(String bookTitle, String content, int rating) {
         this.bookTitle = bookTitle;
         this.content = content;
         this.rating = rating;
+    }
+
+    public boolean isNotOwner(Long userId) {
+        return !this.userId.equals(userId);
     }
 }

@@ -8,6 +8,8 @@ import com.lsk.redoapi.review.presentation.dto.request.CreateReviewRequest;
 import com.lsk.redoapi.review.presentation.dto.request.UpdateReviewRequest;
 import com.lsk.redoapi.review.presentation.dto.response.ReviewResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +25,13 @@ public class ReviewService {
 
     @Transactional
     public ReviewResponse createReview(CreateReviewRequest request) {
+        Long userId = getCurrentUserId();
+
         ReviewEntity review = ReviewEntity.builder()
                 .bookTitle(request.getBookTitle())
                 .content(request.getContent())
                 .rating(request.getRating())
+                .userId(userId)
                 .build();
 
         ReviewEntity savedReview = reviewRepository.save(review);
@@ -47,8 +52,14 @@ public class ReviewService {
 
     @Transactional
     public ReviewResponse updateReview(Long id, UpdateReviewRequest request) {
+        Long userId = getCurrentUserId();
+
         ReviewEntity review = reviewRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
+
+        if (review.isNotOwner(userId)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
 
         review.update(request.getBookTitle(), request.getContent(), request.getRating());
 
@@ -57,9 +68,23 @@ public class ReviewService {
 
     @Transactional
     public void deleteReview(Long id) {
-        if (!reviewRepository.existsById(id)) {
-            throw new CustomException(ErrorCode.REVIEW_NOT_FOUND);
+        Long userId = getCurrentUserId();
+
+        ReviewEntity review = reviewRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
+
+        if (review.isNotOwner(userId)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
         }
+
         reviewRepository.deleteById(id);
+    }
+
+    private Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
+        }
+        return (Long) authentication.getDetails();
     }
 }
