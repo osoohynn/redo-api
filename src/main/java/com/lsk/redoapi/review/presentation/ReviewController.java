@@ -6,6 +6,7 @@ import com.lsk.redoapi.review.presentation.dto.request.UpdateReviewRequest;
 import com.lsk.redoapi.review.presentation.dto.response.ReviewResponse;
 import com.lsk.redoapi.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,25 +19,25 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public BaseResponse<ReviewResponse> createReview(@RequestBody CreateReviewRequest request) {
+    public ResponseEntity<BaseResponse<ReviewResponse>> createReview(@RequestBody CreateReviewRequest request) {
         ReviewResponse response = reviewService.createReview(request);
         return BaseResponse.created(response);
     }
 
     @GetMapping("/{id}")
-    public BaseResponse<ReviewResponse> getReview(@PathVariable Long id) {
+    public ResponseEntity<BaseResponse<ReviewResponse>> getReview(@PathVariable Long id) {
         ReviewResponse response = reviewService.getReviewById(id);
         return BaseResponse.ok(response);
     }
 
     @GetMapping
-    public BaseResponse<List<ReviewResponse>> getAllReviews() {
+    public ResponseEntity<BaseResponse<List<ReviewResponse>>> getAllReviews() {
         List<ReviewResponse> responses = reviewService.getAllReviews();
         return BaseResponse.ok(responses);
     }
 
     @PutMapping("/{id}")
-    public BaseResponse<ReviewResponse> updateReview(
+    public ResponseEntity<BaseResponse<ReviewResponse>> updateReview(
             @PathVariable Long id,
             @RequestBody UpdateReviewRequest request) {
         ReviewResponse response = reviewService.updateReview(id, request);
@@ -44,7 +45,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id}")
-    public BaseResponse<Void> deleteReview(@PathVariable Long id) {
+    public ResponseEntity<BaseResponse<Void>> deleteReview(@PathVariable Long id) {
         reviewService.deleteReview(id);
         return BaseResponse.noContent();
     }

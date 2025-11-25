@@ -7,6 +7,7 @@ import com.lsk.redoapi.auth.service.AuthService;
 import com.lsk.redoapi.global.common.BaseResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +21,13 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public BaseResponse<AuthResponse> signup(@Valid @RequestBody SignupRequest request) {
+    public ResponseEntity<BaseResponse<AuthResponse>> signup(@Valid @RequestBody SignupRequest request) {
         AuthResponse response = authService.signup(request);
         return BaseResponse.created(response);
     }
 
     @PostMapping("/login")
-    public BaseResponse<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<BaseResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest request) {
         AuthResponse response = authService.login(request);
         return BaseResponse.ok(response);
     }
