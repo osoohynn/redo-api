@@ -1,0 +1,65 @@
+package com.lsk.redoapi.review.service;
+
+import com.lsk.redoapi.global.exception.CustomException;
+import com.lsk.redoapi.global.exception.ErrorCode;
+import com.lsk.redoapi.review.domain.entity.ReviewEntity;
+import com.lsk.redoapi.review.domain.repository.ReviewRepository;
+import com.lsk.redoapi.review.presentation.dto.request.CreateReviewRequest;
+import com.lsk.redoapi.review.presentation.dto.request.UpdateReviewRequest;
+import com.lsk.redoapi.review.presentation.dto.response.ReviewResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class ReviewService {
+
+    private final ReviewRepository reviewRepository;
+
+    @Transactional
+    public ReviewResponse createReview(CreateReviewRequest request) {
+        ReviewEntity review = ReviewEntity.builder()
+                .bookTitle(request.getBookTitle())
+                .content(request.getContent())
+                .rating(request.getRating())
+                .build();
+
+        ReviewEntity savedReview = reviewRepository.save(review);
+        return ReviewResponse.from(savedReview);
+    }
+
+    public ReviewResponse getReviewById(Long id) {
+        ReviewEntity review = reviewRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
+        return ReviewResponse.from(review);
+    }
+
+    public List<ReviewResponse> getAllReviews() {
+        return reviewRepository.findAll().stream()
+                .map(ReviewResponse::from)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ReviewResponse updateReview(Long id, UpdateReviewRequest request) {
+        ReviewEntity review = reviewRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
+
+        review.update(request.getBookTitle(), request.getContent(), request.getRating());
+
+        return ReviewResponse.from(review);
+    }
+
+    @Transactional
+    public void deleteReview(Long id) {
+        if (!reviewRepository.existsById(id)) {
+            throw new CustomException(ErrorCode.REVIEW_NOT_FOUND);
+        }
+        reviewRepository.deleteById(id);
+    }
+}
