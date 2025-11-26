@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**", "/api-docs").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/reviews/**", "/api/reviews").permitAll()
                         .anyRequest().authenticated())
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.sameOrigin()))
