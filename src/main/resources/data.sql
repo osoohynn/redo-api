@@ -29,3 +29,7 @@ INSERT INTO reviews (id, book_title, content, rating, user_id, created_at, updat
 (13, 'Real MySQL 8.0', 'MySQL의 내부 동작 원리를 깊이 있게 다루는 책입니다. 고급 개발자에게 추천!', 5, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (14, '모던 자바 인 액션', '자바 8 이후의 최신 기능들을 상세히 설명하는 책입니다.', 4, 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (15, 'DDD Start!', '도메인 주도 설계의 기본 개념을 쉽게 설명해주는 입문서입니다.', 4, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- ID 시퀀스를 다음 값으로 초기화
+ALTER TABLE users ALTER COLUMN id RESTART WITH 4;
+ALTER TABLE reviews ALTER COLUMN id RESTART WITH 16;
