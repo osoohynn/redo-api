@@ -15,8 +15,15 @@ spring:
       enabled: true
       path: /h2-console
 
+  # SQL 초기화 설정
+  sql:
+    init:
+      mode: always
+      platform: h2
+
   # JPA 설정
   jpa:
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: create-drop
     properties:
