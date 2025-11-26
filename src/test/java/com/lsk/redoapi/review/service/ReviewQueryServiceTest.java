@@ -62,7 +62,7 @@ class ReviewQueryServiceTest {
 
     @Test
     @DisplayName("리뷰 검색 - 실패 (minRating이 1보다 작음)")
-    void searchReviews_fail_minRatingTooLow() {
+    void searchReviews_minRatingTooLow() {
         // given
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -74,7 +74,7 @@ class ReviewQueryServiceTest {
 
     @Test
     @DisplayName("리뷰 검색 - 실패 (minRating이 5보다 큼)")
-    void searchReviews_fail_minRatingTooHigh() {
+    void searchReviews_minRatingTooHigh() {
         // given
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -86,7 +86,7 @@ class ReviewQueryServiceTest {
 
     @Test
     @DisplayName("리뷰 검색 - 실패 (maxRating이 1보다 작음)")
-    void searchReviews_fail_maxRatingTooLow() {
+    void searchReviews_maxRatingTooLow() {
         // given
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -98,7 +98,7 @@ class ReviewQueryServiceTest {
 
     @Test
     @DisplayName("리뷰 검색 - 실패 (maxRating이 5보다 큼)")
-    void searchReviews_fail_maxRatingTooHigh() {
+    void searchReviews_maxRatingTooHigh() {
         // given
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -110,7 +110,7 @@ class ReviewQueryServiceTest {
 
     @Test
     @DisplayName("리뷰 검색 - 실패 (minRating이 maxRating보다 큼)")
-    void searchReviews_fail_minRatingGreaterThanMaxRating() {
+    void searchReviews_ratingRangeReversed() {
         // given
         Pageable pageable = PageRequest.of(0, 10);
 
