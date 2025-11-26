@@ -20,7 +20,8 @@ public enum ErrorCode {
     DUPLICATE_USERNAME(409, "이미 존재하는 사용자 이름입니다."),
 
     // 리뷰
-    REVIEW_NOT_FOUND(404, "찾을 수 없는 리뷰입니다.");
+    REVIEW_NOT_FOUND(404, "찾을 수 없는 리뷰입니다."),
+    INVALID_RATING_RANGE(400, "잘못된 평점 범위입니다. (minRating은 1~5, maxRating은 1~5, minRating <= maxRating)");
 
     private final int status;
     private final String message;

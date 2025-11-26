@@ -1,5 +1,7 @@
 package com.lsk.redoapi.review.service;
 
+import com.lsk.redoapi.global.exception.CustomException;
+import com.lsk.redoapi.global.exception.ErrorCode;
 import com.lsk.redoapi.review.domain.entity.ReviewEntity;
 import com.lsk.redoapi.review.domain.repository.ReviewQueryRepository;
 import com.lsk.redoapi.review.presentation.dto.response.ReviewResponse;
@@ -19,6 +21,9 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
     @Override
     public Page<ReviewResponse> searchReviews(String bookTitle, Integer minRating, Integer maxRating,
                                                Long userId, Pageable pageable) {
+        // 평점 범위 검증
+        validateRatingRange(minRating, maxRating);
+
         Page<ReviewEntity> reviews = reviewQueryRepository.searchReviews(
                 bookTitle,
                 minRating,
@@ -28,6 +33,23 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
         );
 
         return reviews.map(ReviewResponse::from);
+    }
+
+    private void validateRatingRange(Integer minRating, Integer maxRating) {
+        // minRating 범위 검증 (1~5)
+        if (minRating != null && (minRating < 1 || minRating > 5)) {
+            throw new CustomException(ErrorCode.INVALID_RATING_RANGE);
+        }
+
+        // maxRating 범위 검증 (1~5)
+        if (maxRating != null && (maxRating < 1 || maxRating > 5)) {
+            throw new CustomException(ErrorCode.INVALID_RATING_RANGE);
+        }
+
+        // minRating이 maxRating보다 큰 경우
+        if (minRating != null && maxRating != null && minRating > maxRating) {
+            throw new CustomException(ErrorCode.INVALID_RATING_RANGE);
+        }
     }
 
     @Override
